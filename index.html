@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Collaborative Coding Platform</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <header>
+      <div class="logo">
+        <i class="fas fa-code"></i>
+        <h1>Sync<span>Code</span></h1>
+      </div>
+      <nav>
+        <ul class="nav-links">
+          <li>
+            <a href="#home"><i class="fa-solid fa-house"></i> Home</a>
+          </li>
+          <li>
+            <a href="#onlineIDE"><i class="fa-solid fa-code"></i> Online IDE</a>
+          </li>
+          <li>
+            <a href="#features"><i class="fa-solid fa-cog"></i> Features</a>
+          </li>
+          <li>
+            <a href="#contact"><i class="fa-solid fa-phone"></i> Contact</a>
+          </li>
+        </ul>
+      </nav>
+      <div class="auth">
+        <a href="./pages/login.html"
+          ><button class="login-btn">
+            <i class="fas fa-sign-in-alt"></i> Log In
+          </button></a
+        >
+        <button class="signup"><i class="fas fa-user-plus"></i> Sign Up</button>
+      </div>
+      <div class="menu-toggle">
+        <i class="fas fa-bars"></i>
+      </div>
+    </header>
+    <section class="hero">
+      <!-- Hero Content -->
+      <div class="hero-content">
+        <h2><span>Code Here.</span> <span>Code Now.</span></h2>
+        <p class="subtext">
+          Learn coding, build projects, and prepare for your future — all in one
+          platform.
+        </p>
+        <button class="cta-button">+ Create new project</button>
+      </div>
+
+      <!-- Code Preview Section -->
+      <div class="code-preview">
+        <div class="code-window">
+          <div class="code-header">
+            <span>JavaScript Graphics</span>
+            <div class="code-actions">
+              <button class="action-btn">Run</button>
+              <button class="action-btn clear">Clear</button>
+            </div>
+          </div>
+          <div class="code-content">
+            <div class="code-left">
+              <pre>
+                    <span class="line-number">1</span> <code><span class="keyword">function</span> <span class="function">updateAndDrawProjectile</span>() {</code>
+                </pre>
+              <pre>
+                    <span class="line-number">2</span> <code>    <span class="keyword">if</span> (!projectile.active) <span class="keyword">return</span>;</code>
+                </pre>
+              <pre>
+                    <span class="line-number">3</span> <code>    <span class="keyword">const</span> angleRad = (-projectile.angle * Math.PI) / 180;</code>
+                </pre>
+              <pre>
+                    <span class="line-number">4</span> <code>    <span class="keyword">const</span> vx = projectile.initialVelocity * Math.cos(angleRad);</code>
+                </pre>
+              <pre>
+                    <span class="line-number">5</span> <code>    <span class="keyword">const</span> vy = projectile.initialVelocity * Math.sin(angleRad);</code>
+                </pre>
+              <pre>
+                    <span class="line-number">6</span> <code>    <span class="keyword">const</span> gravity = 9.8;</code>
+                </pre>
+              <pre>
+                    <span class="line-number">7</span> <code>    <span class="keyword">const</span> x = vx * projectile.time;</code>
+                </pre>
+              <pre>
+                    <span class="line-number">8</span> <code>    <span class="keyword">const</span> y = vy * projectile.time - 0.5 * gravity * projectile.time * projectile.time;</code>
+                </pre>
+              <pre>
+                    <span class="line-number">9</span> <code>    <span class="keyword">const</span> bulletX = pivotX + x;</code>
+                </pre>
+              <pre>
+                    <span class="line-number">10</span> <code>    <span class="keyword">const</span> bulletY = pivotY - y;</code>
+                </pre>
+              <pre>
+                    <span class="line-number">11</span> <code>    <span class="keyword">if</span> (bulletY >= gameArea.height - ground.height || bulletX > gameArea.width) {</code>
+                </pre>
+              <pre>
+                    <span class="line-number">12</span> <code>        projectile.active = <span class="keyword">false</span>;</code>
+                </pre>
+              <pre>
+                    <span class="line-number">13</span> <code>        hitGroundSound.play();</code>
+                </pre>
+              <pre>
+                    <span class="line-number">14</span> <code>        <span class="keyword">return</span>;</code>
+                </pre>
+              <pre>
+                    <span class="line-number">15</span> <code>    }</code>
+                </pre>
+              <pre>
+                    <span class="line-number">16</span> <code>}</code>
+                </pre>
+            </div>
+            <div class="code-right">
+              <img
+                src="./assets/images/freepik__background__58383.png"
+                alt="Visualization"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="features-section">
+      <div class="features-header">
+        <h2>Why Choose <span>CodeTogether</span>?</h2>
+        <p>
+          Discover the powerful features that make collaborative coding
+          effortless and efficient.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <i class="fas fa-users"></i>
+          <h3>Real-Time Collaboration</h3>
+          <p>
+            Code together with your team and see updates in real-time without
+            any delay.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <i class="fas fa-code"></i>
+          <h3>Powerful Code Editor</h3>
+          <p>
+            Enjoy syntax highlighting, auto-indentation, and customizable
+            themes.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <i class="fas fa-comments"></i>
+          <h3>Built-in Chat System</h3>
+          <p>
+            Communicate seamlessly with your team using real-time chat with
+            notifications.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <i class="fas fa-history"></i>
+          <h3>Version Control</h3>
+          <p>
+            Track changes, view edit history, and revert to previous versions
+            effortlessly.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <i class="fas fa-lock"></i>
+          <h3>Secure Collaboration</h3>
+          <p>
+            End-to-end encryption ensures your data and communication are
+            secure.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <i class="fas fa-palette"></i>
+          <h3>Customizable Workspace</h3>
+          <p>
+            Personalize your coding experience with adjustable layouts and
+            themes.
+          </p>
+        </div>
+      </div>
+    </section>
+    <section class="about-section">
+        <div class="about-content">
+          <h2>About <span>CodeTogether</span></h2>
+          <p>
+            <i class="fas fa-network-wired"></i>
+            <strong>Real-Time Sync:</strong> Experience instant updates across all devices, ensuring everyone is on the same page. Work collaboratively without delays or interruptions, whether coding with your team or solving complex problems together.
+          </p>
+          <p>
+            <i class="fas fa-lock"></i>
+            <strong>Secure Environment:</strong> Your privacy and data security are our top priorities. With end-to-end encryption, CodeTogether ensures that your work remains confidential and protected.
+          </p>
+          <p>
+            <i class="fas fa-tachometer-alt"></i>
+            <strong>Lightning Fast:</strong> Built for speed and performance, the platform guarantees lag-free interactions and a seamless coding experience for developers.
+          </p>
+          <p>
+            <i class="fas fa-palette"></i>
+            <strong>Customizable Workspace:</strong> Personalize your environment with themes, layouts, and settings that suit your style and workflow.
+          </p>
+          <p>
+            <i class="fas fa-comments"></i>
+            <strong>Integrated Communication:</strong> Stay connected with your team using built-in chat and communication tools that keep collaboration efficient.
+          </p>
+        </div>
+      </section>
+      <section class="contact-section">
+        <div class="contact-container">
+          <h2>Contact <span>Us</span></h2>
+          <p>Have questions, feedback, or need assistance? We'd love to hear from you. Reach out to us using the form below or through the provided contact details.</p>
+      
+          <div class="contact-content">
+            <!-- Contact Form -->
+            <form class="contact-form">
+              <div class="form-group">
+                <i class="fas fa-user"></i>
+                <input type="text" placeholder="Your Name" required />
+              </div>
+              <div class="form-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" placeholder="Your Email" required />
+              </div>
+              <div class="form-group">
+                <i class="fas fa-comment"></i>
+                <textarea placeholder="Your Message" required></textarea>
+              </div>
+              <button type="submit" class="btn-submit">Send Message</button>
+            </form>
+      
+            <!-- Contact Details -->
+            <div class="contact-info">
+              <div class="info-item">
+                <i class="fas fa-phone-alt"></i>
+                <p>+1 234 567 890</p>
+              </div>
+              <div class="info-item">
+                <i class="fas fa-envelope"></i>
+                <p>support@codetogether.com</p>
+              </div>
+              <div class="info-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <p>123 Coding Lane, Tech City</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      
+
+    <footer>
+      <div class="footer-content">
+        <div class="footer-logo">
+          <h2>Sync<span>Code</span></h2>
+          <p>Collaborate, create, and code in real-time.</p>
+        </div>
+
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+          <ul>
+            <li>
+              <a href="#"
+                ><i class="fas fa-home" style="margin-right: 8px"></i> Home</a
+              >
+            </li>
+            <li>
+              <a href="#"
+                ><i class="fas fa-cog" style="margin-right: 8px"></i>
+                Features</a
+              >
+            </li>
+            <li>
+              <a href="#"
+                ><i class="fas fa-info-circle" style="margin-right: 8px"></i>
+                About Us</a
+              >
+            </li>
+            <li>
+              <a href="#"
+                ><i class="fas fa-phone" style="margin-right: 8px"></i>
+                Contact</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-social">
+          <h3>Follow Us</h3>
+          <ul>
+            <li>
+              <a href="#"
+                ><i class="fab fa-twitter" style="margin-right: 8px"></i>
+                Twitter</a
+              >
+            </li>
+            <li>
+              <a href="#"
+                ><i class="fab fa-facebook" style="margin-right: 8px"></i>
+                Facebook</a
+              >
+            </li>
+            <li>
+              <a href="#"
+                ><i class="fab fa-github" style="margin-right: 8px"></i>
+                GitHub</a
+              >
+            </li>
+            <li>
+              <a href="#"
+                ><i class="fab fa-linkedin" style="margin-right: 8px"></i>
+                LinkedIn</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2025 CodeTogether. All rights reserved.</p>
+      </div>
+    </footer>
+    <div class="chatbot-button">
+        <i class="fas fa-comment-dots"></i>
+      </div>
+      
+    <script src="./js/main.js"></script>
+  </body>
+</html>
