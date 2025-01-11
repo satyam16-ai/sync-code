@@ -734,6 +734,93 @@ footer {
     background: #ffa502;
   }
 
+  /* Popup Screen */
+.popup {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it stays above other content */
+}
+
+.popup-content {
+    background: rgba(255, 255, 255, 0.1); /* Transparent White */
+    -webkit-backdrop-filter: blur(10px); /* Glass Blur Effect for Safari */
+    backdrop-filter: blur(10px); /* Glass Blur Effect */
+    border-radius: 15px; /* Rounded Corners */
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Subtle Shadow */
+    width: 300px;
+    text-align: center;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+}
+
+.popup-content h2 {
+    margin-bottom: 20px;
+    color: white;
+}
+
+.popup-content .form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.popup-content .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: white;
+}
+
+.popup-content .input-container {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.popup-content .input-container i {
+    color: var(--primary-color);
+    margin-right: 10px;
+}
+
+.popup-content .input-container input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: transparent;
+    color: white;
+}
+
+.popup-content .btn-submit {
+    background: var(--primary-color);
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.popup-content .btn-submit:hover {
+    background: #36b06a;
+}
+
   /* Responsive Design */
   @media (max-width: 768px) {
     .contact-content {
@@ -788,4 +875,117 @@ footer {
     .menu-toggle {
         display: block;
     }
+}
+
+/* Chatbot Button */
+.chatbot-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.chatbot-button:hover {
+    background-color: #36b06a;
+}
+
+.chatbot-button i {
+    font-size: 24px;
+}
+
+/* Chatbot Popup */
+.chatbot-popup {
+    display: none; /* Hidden by default */
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 350px;
+    max-width: 90%;
+    background: rgba(255, 255, 255, 0.1); /* Transparent White */
+    -webkit-backdrop-filter: blur(10px); /* Glass Blur Effect for Safari */
+    backdrop-filter: blur(10px); /* Glass Blur Effect */
+    border-radius: 15px; /* Rounded Corners */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Subtle Shadow */
+    z-index: 1000; /* Ensure it stays above other content */
+    overflow: hidden;
+    flex-direction: column;
+}
+
+.chatbot-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+}
+
+.chatbot-header h2 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.close-chatbot {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.chatbot-content {
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.chatbot-messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    color: white;
+}
+
+.chatbot-input {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.chatbot-input input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    margin-right: 10px;
+}
+
+.chatbot-input button {
+    background: var(--primary-color);
+    color: black;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.chatbot-input button:hover {
+    background: #36b06a;
+}
+
+.chatbot-input button i {
+    font-size: 16px;
 }

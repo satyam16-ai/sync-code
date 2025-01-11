@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monaco Code Editor</title>
+    <style>
+        /* Set the height and width of the Monaco Editor container */
+        #editor {
+            height: 100vh;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- The div where Monaco Editor will be rendered -->
+    <div id="editor"></div>
+
+    <!-- Include the Monaco Editor CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.40.0/min/vs/loader.js"></script>
+
+    <script>
+        // Load Monaco Editor and initialize it
+        require.config({
+            paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.40.0/min/vs' }
+        });
+
+        require(['vs/editor/editor.main'], function() {
+            monaco.editor.create(document.getElementById('editor'), {
+                value: [
+                    'function hello() {',
+                    '    console.log("Hello, World!");',
+                    '}',
+                    '',
+                    'hello();'
+                ].join('\n'),
+                language: 'javascript',
+                theme: 'vs-dark',
+                automaticLayout: true
+            });
+        });
+    </script>
+</body>
+</html>

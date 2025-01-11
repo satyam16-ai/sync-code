@@ -60,7 +60,7 @@
         </p>
         <button class="cta-button">+ Create new project</button>
         <!-- add icon in create new room -->
-        <button class="cta-button">
+        <button class="cta-button" id="create-room-btn">
           <i class="fas fa-door-open"></i> Create new Room
         </button>
       </div>
@@ -353,6 +353,48 @@
     </footer>
     <div class="chatbot-button">
       <i class="fas fa-comment-dots"></i>
+    </div>
+
+    <!-- Popup Screen for Creating a New Room -->
+    <div class="popup" id="create-room-popup">
+      <div class="popup-content">
+        <span class="close-btn" id="close-popup">&times;</span>
+        <h2>Create New Room</h2>
+        <form>
+          <div class="form-group">
+            <label for="room-name">Room Name</label>
+            <div class="input-container">
+              <i class="fas fa-door-open"></i>
+              <input type="text" id="room-name" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="room-password">Password</label>
+            <div class="input-container">
+              <i class="fas fa-lock"></i>
+              <input type="password" id="room-password" required />
+            </div>
+          </div>
+          <button type="submit" class="btn-submit">Create Room</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Chatbot Screen -->
+    <div class="chatbot-popup" id="chatbot-popup">
+      <div class="chatbot-header">
+        <span class="close-chatbot" id="close-chatbot">&times;</span>
+        <h2>Chatbot</h2>
+      </div>
+      <div class="chatbot-content">
+        <div class="chatbot-messages" id="chatbot-messages">
+          <!-- Chat messages will appear here -->
+        </div>
+        <div class="chatbot-input">
+          <input type="text" id="chatbot-input" placeholder="Type a message..." />
+          <button id="send-chatbot-message" title="Send Message"><i class="fas fa-paper-plane"></i></button>
+        </div>
+      </div>
     </div>
 
     <script src="./js/main.js"></script>
