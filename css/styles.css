@@ -193,6 +193,7 @@ header nav ul li a:hover {
   .hero h2 span:nth-child(2) {
     background: linear-gradient(90deg, #43d183, #6c5ce7);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
   }
   
