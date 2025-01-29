@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "@liveblocks/client": "^2.15.2",
+    "@liveblocks/yjs": "^2.15.2",
+    "axios": "^1.7.9",
+    "codemirror": "^6.0.1",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "monaco-editor": "^0.52.2",
+    "y-monaco": "^0.1.6",
+    "yjs": "^13.6.21"
+  }
+}

@@ -3,42 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monaco Code Editor</title>
-    <style>
-        /* Set the height and width of the Monaco Editor container */
-        #editor {
-            height: 100vh;
-            width: 100%;
-        }
-    </style>
+    <title>Online IDE</title>
+    <link rel="stylesheet" href="../css/editor.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- The div where Monaco Editor will be rendered -->
-    <div id="editor"></div>
+    <div class="container">
+        <h1>Online IDE</h1>
+        <div class="controls">
+            <select id="language-selector">
+                <option value="python">Python</option>
+                <option value="javascript">JavaScript</option>
+                <option value="html">HTML</option>
+                <option value="css">CSS</option>
+                <option value="c">C</option>
+            </select>
+            <button id="run-btn">Run Code</button>
+            <button id="clear-output-btn">Clear Output</button>
+            <button id="new-tab-btn">New Tab</button>
+            <button id="save-file-btn">Save File</button>
+            <button id="download-btn">Download Code</button>
+            <button id="theme-toggle">Toggle Theme</button>
+        </div>
+        <div class="editor-section">
+            <div class="tabs" id="tabs"></div>
+            <div id="editor-container"></div>
+            <div class="file-manager">
+                <h2>File Manager</h2>
+                <input type="text" id="filename-input" placeholder="Enter filename">
+                <button id="create-file-btn">Create File</button>
+                <ul id="file-list"></ul>
+            </div>
+        </div>
+        <div class="output-container">
+            <h2>Terminal</h2>
+            <pre id="output"></pre>
+        </div>
+    </div>
 
-    <!-- Include the Monaco Editor CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.40.0/min/vs/loader.js"></script>
-
-    <script>
-        // Load Monaco Editor and initialize it
-        require.config({
-            paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.40.0/min/vs' }
-        });
-
-        require(['vs/editor/editor.main'], function() {
-            monaco.editor.create(document.getElementById('editor'), {
-                value: [
-                    'function hello() {',
-                    '    console.log("Hello, World!");',
-                    '}',
-                    '',
-                    'hello();'
-                ].join('\n'),
-                language: 'javascript',
-                theme: 'vs-dark',
-                automaticLayout: true
-            });
-        });
-    </script>
+    <script src="https://unpkg.com/monaco-editor@0.33.0/min/vs/loader.js"></script>
+    <script src="../js/editor.js"></script>
 </body>
 </html>
