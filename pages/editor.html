@@ -3,45 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online IDE</title>
+    <title>VS Code-like Online IDE</title>
     <link rel="stylesheet" href="../css/editor.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/xterm/css/xterm.css">
 </head>
 <body>
     <div class="container">
-        <h1>Online IDE</h1>
-        <div class="controls">
-            <select id="language-selector">
-                <option value="python">Python</option>
-                <option value="javascript">JavaScript</option>
-                <option value="html">HTML</option>
-                <option value="css">CSS</option>
-                <option value="c">C</option>
-            </select>
-            <button id="run-btn">Run Code</button>
-            <button id="clear-output-btn">Clear Output</button>
-            <button id="new-tab-btn">New Tab</button>
-            <button id="save-file-btn">Save File</button>
-            <button id="download-btn">Download Code</button>
-            <button id="theme-toggle">Toggle Theme</button>
-        </div>
-        <div class="editor-section">
-            <div class="tabs" id="tabs"></div>
-            <div id="editor-container"></div>
-            <div class="file-manager">
-                <h2>File Manager</h2>
-                <input type="text" id="filename-input" placeholder="Enter filename">
-                <button id="create-file-btn">Create File</button>
-                <ul id="file-list"></ul>
+        <!-- Header -->
+        <header class="header">
+            <h1>Online IDE</h1>
+            <div class="controls">
+                <label for="language-selector" class="visually-hidden">Select programming language</label>
+                <select id="language-selector" class="dropdown">
+                    <option value="python">Python</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="html">HTML</option>
+                    <option value="css">CSS</option>
+                    <option value="c">C</option>
+                </select>
+                <button id="run-btn" class="btn primary">Run</button>
+                <button id="new-tab-btn" class="btn primary">New Tab</button>
+                <button id="save-file-btn" class="btn secondary">Save</button>
+                <button id="download-btn" class="btn secondary">Download</button>
+                <button id="theme-toggle" class="btn secondary">Toggle Theme</button>
             </div>
+        </header>
+
+        <!-- Editor Section -->
+        <div class="editor-section">
+            <div class="tab-bar" id="tab-bar"></div>
+            <div id="editor-container"></div>
         </div>
-        <div class="output-container">
+
+        <!-- Terminal Section -->
+        <div class="terminal-container">
             <h2>Terminal</h2>
-            <pre id="output"></pre>
+            <div id="terminal"></div>
         </div>
     </div>
 
+    <!-- Load Monaco Editor -->
     <script src="https://unpkg.com/monaco-editor@0.33.0/min/vs/loader.js"></script>
+    <!-- Load xterm.js -->
+    <script src="https://unpkg.com/xterm/lib/xterm.js"></script>
+    <script src="https://unpkg.com/xterm-addon-fit/lib/xterm-addon-fit.js"></script>
+    <!-- Main Script -->
     <script src="../js/editor.js"></script>
 </body>
 </html>

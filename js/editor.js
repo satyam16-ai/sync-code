@@ -1,153 +1,207 @@
-require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@0.33.0/min/vs' }});
-require(['vs/editor/editor.main'], function() {
-    // Initialize variables
+// Configure Monaco Editor loader
+require.config({ paths: { vs: 'https://unpkg.com/monaco-editor@0.33.0/min/vs' }});
+
+// Load Monaco Editor and initialize the IDE
+require(['vs/editor/editor.main'], () => {
     let editors = [];
-    let currentEditorIndex = 0;
-    const files = JSON.parse(localStorage.getItem('files')) || {};
-    const fileList = document.getElementById('file-list');
-    const filenameInput = document.getElementById('filename-input');
-    const tabsContainer = document.getElementById('tabs');
+    let activeTabId = null;
+    let currentTheme = 'vs-dark';
 
-    // Initialize Monaco Editor
-    function createEditor(language = 'python') {
-        const editor = monaco.editor.create(document.getElementById('editor-container'), {
-            value: `// Write your ${language} code here`,
-            language: language,
-            theme: 'vs-dark',
-            automaticLayout: true,
-            lineNumbers: 'on',
-        });
-        editors.push(editor);
-        return editor;
-    }
+    // Initialize Xterm.js terminal
+    const { Terminal } = window;
+    const { FitAddon } = window;
+    const terminal = new Terminal();
+    const fitAddon = new FitAddon();
+    terminal.loadAddon(fitAddon);
+    terminal.open(document.getElementById('terminal'));
+    fitAddon.fit();
 
-    // Render file list
-    function renderFileList() {
-        fileList.innerHTML = '';
-        Object.keys(files).forEach(filename => {
-            const li = document.createElement('li');
-            li.textContent = filename;
-            li.addEventListener('click', () => {
-                const fileContent = files[filename];
-                editors[currentEditorIndex].setValue(fileContent);
+    // Handle terminal input
+    terminal.onData((data) => {
+        terminal.write(data); // Echo input (for now)
+    });
+
+    class Tab {
+        constructor(id, language = 'python', content = '', filename = `Untitled-${id}`) {
+            this.id = id;
+            this.language = language;
+            this.content = content;
+            this.filename = filename;
+            this.editor = null;
+            this.element = null;
+            this.initializeEditor();
+        }
+
+        initializeEditor() {
+            const container = document.createElement('div');
+            container.style.height = '100%';
+            container.style.display = 'none';
+            document.getElementById('editor-container').appendChild(container);
+
+            this.editor = monaco.editor.create(container, {
+                value: this.content,
+                language: this.language,
+                theme: currentTheme,
+                automaticLayout: true,
+                minimap: { enabled: false }
             });
-            fileList.appendChild(li);
-        });
-    }
+        }
 
-    // Render tabs
-    function renderTabs() {
-        tabsContainer.innerHTML = '';
-        editors.forEach((editor, index) => {
+        createTabElement() {
             const tab = document.createElement('div');
-            tab.className = `tab ${index === currentEditorIndex ? 'active' : ''}`;
-            tab.textContent = `Tab ${index + 1}`;
-            tab.addEventListener('click', () => {
-                currentEditorIndex = index;
-                editors.forEach((e, i) => {
-                    e.getDomNode().style.display = i === index ? 'block' : 'none';
-                });
-                renderTabs();
+            tab.className = 'tab';
+            tab.innerHTML = `
+                <span>${this.filename}.${this.getFileExtension()}</span>
+                <span class="tab-close">×</span>
+            `;
+            
+            tab.querySelector('.tab-close').addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.close();
             });
-            tabsContainer.appendChild(tab);
-        });
+
+            tab.addEventListener('click', () => this.activate());
+            return tab;
+        }
+
+        activate() {
+            editors.forEach(tab => {
+                tab.editor.getContainerDomNode().style.display = 'none';
+                tab.element.classList.remove('active');
+            });
+            this.editor.getContainerDomNode().style.display = 'block';
+            this.element.classList.add('active');
+            activeTabId = this.id;
+            document.getElementById('language-selector').value = this.language;
+        }
+
+        close() {
+            const index = editors.findIndex(t => t.id === this.id);
+            editors.splice(index, 1);
+            this.editor.dispose();
+            this.element.remove();
+            
+            if (editors.length > 0) {
+                editors[0].activate();
+            }
+        }
+
+        save() {
+            this.content = this.editor.getValue();
+            localStorage.setItem('savedFiles', JSON.stringify(
+                editors.map(tab => ({
+                    content: tab.content,
+                    language: tab.language,
+                    filename: tab.filename
+                }))
+            ));
+        }
+
+        getFileExtension() {
+            switch (this.language) {
+                case 'python': return 'py';
+                case 'javascript': return 'js';
+                case 'html': return 'html';
+                case 'css': return 'css';
+                case 'c': return 'c';
+                default: return 'txt';
+            }
+        }
     }
 
-    // Create new tab
-    document.getElementById('new-tab-btn').addEventListener('click', () => {
+    // Initialize first tab
+    function createNewTab() {
+        const tabId = Date.now();
         const language = document.getElementById('language-selector').value;
-        createEditor(language);
-        renderTabs();
-    });
+        const newTab = new Tab(tabId, language);
+        newTab.element = newTab.createTabElement();
+        
+        document.getElementById('tab-bar').appendChild(newTab.element);
+        editors.push(newTab);
+        newTab.activate();
+    }
 
-    // Create new file
-    document.getElementById('create-file-btn').addEventListener('click', () => {
-        const filename = filenameInput.value.trim();
-        if (filename && !files[filename]) {
-            files[filename] = '';
-            localStorage.setItem('files', JSON.stringify(files));
-            renderFileList();
-            filenameInput.value = '';
+    // Control handlers
+    document.getElementById('new-tab-btn').addEventListener('click', createNewTab);
+
+    document.getElementById('language-selector').addEventListener('change', function() {
+        const currentTab = editors.find(t => t.id === activeTabId);
+        if (currentTab) {
+            currentTab.language = this.value;
+            monaco.editor.setModelLanguage(
+                currentTab.editor.getModel(),
+                this.value
+            );
+            currentTab.element.querySelector('span').textContent = `${currentTab.filename}.${currentTab.getFileExtension()}`;
         }
     });
 
-    // Save current file
-    document.getElementById('save-file-btn').addEventListener('click', () => {
-        const filename = filenameInput.value.trim();
-        if (filename) {
-            files[filename] = editors[currentEditorIndex].getValue();
-            localStorage.setItem('files', JSON.stringify(files));
-            renderFileList();
-        }
-    });
-
-    // Download code
-    document.getElementById('download-btn').addEventListener('click', () => {
-        const code = editors[currentEditorIndex].getValue();
-        const blob = new Blob([code], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `code.${document.getElementById('language-selector').value}`;
-        a.click();
-        URL.revokeObjectURL(url);
-    });
-
-    // Toggle theme
     document.getElementById('theme-toggle').addEventListener('click', () => {
-        const currentTheme = editors[currentEditorIndex].getOption(monaco.editor.EditorOption.theme);
-        const newTheme = currentTheme === 'vs-dark' ? 'vs-light' : 'vs-dark';
-        editors.forEach(editor => editor.updateOptions({ theme: newTheme }));
-        document.body.style.backgroundColor = newTheme === 'vs-dark' ? '#1e1e1e' : '#ffffff';
-        document.body.style.color = newTheme === 'vs-dark' ? '#ffffff' : '#000000';
+        currentTheme = currentTheme === 'vs-dark' ? 'vs-light' : 'vs-dark';
+        editors.forEach(tab => {
+            monaco.editor.setTheme(currentTheme);
+        });
+        document.body.style.backgroundColor = currentTheme === 'vs-dark' ? '#1e1e1e' : '#ffffff';
     });
 
-    // Clear output
-    document.getElementById('clear-output-btn').addEventListener('click', () => {
-        document.getElementById('output').textContent = '';
-    });
-
-    // Handle run button click
-    document.getElementById('run-btn').addEventListener('click', async () => {
-        const code = editors[currentEditorIndex].getValue();
-        const language = document.getElementById('language-selector').value;
-
-        // Map language to Piston's recognized name and version
-        let pistonLang = language;
-        let pistonVersion = 'latest';
-
-        if (language === 'python') {
-            pistonLang = 'python3';
-            pistonVersion = '3.10.0';
-        } else if (language === 'javascript') {
-            pistonLang = 'node';
-            pistonVersion = '14.17.0';
-        } else if (language === 'c') {
-            pistonLang = 'c';
-            pistonVersion = '10.2.0';
+    document.getElementById('save-file-btn').addEventListener('click', () => {
+        const currentTab = editors.find(t => t.id === activeTabId);
+        if (currentTab) {
+            currentTab.save();
         }
+    });
+
+    document.getElementById('download-btn').addEventListener('click', () => {
+        const currentTab = editors.find(t => t.id === activeTabId);
+        if (currentTab) {
+            const code = currentTab.editor.getValue();
+            const blob = new Blob([code], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${currentTab.filename}.${currentTab.getFileExtension()}`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    });
+
+    document.getElementById('run-btn').addEventListener('click', async () => {
+        const currentTab = editors.find(t => t.id === activeTabId);
+        if (!currentTab) return;
+
+        const code = currentTab.editor.getValue();
+        const language = currentTab.language;
 
         try {
             const response = await fetch('https://emkc.org/api/v2/piston/execute', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    language: pistonLang,
-                    version: pistonVersion,
-                    files: [{ content: code }],
-                }),
+                    language: language === 'python' ? 'python3' : language,
+                    version: 'latest',
+                    files: [{ content: code }]
+                })
             });
 
             const result = await response.json();
-            const output = result.run.output || result.run.stderr || 'No output';
-            document.getElementById('output').textContent = output;
+            terminal.write(result.run.output || result.run.stderr);
         } catch (error) {
-            document.getElementById('output').textContent = 'Error: Failed to execute code';
+            terminal.write('Execution failed');
         }
     });
 
-    // Initial setup
-    createEditor();
-    renderFileList();
-    renderTabs();
+    // Load saved files
+    const savedFiles = JSON.parse(localStorage.getItem('savedFiles')) || [];
+    if (savedFiles.length > 0) {
+        savedFiles.forEach(file => {
+            createNewTab();
+            const newTab = editors[editors.length - 1];
+            newTab.editor.setValue(file.content);
+            newTab.language = file.language;
+            newTab.filename = file.filename;
+            monaco.editor.setModelLanguage(newTab.editor.getModel(), file.language);
+        });
+    } else {
+        createNewTab();
+    }
 });
